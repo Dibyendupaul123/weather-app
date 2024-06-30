@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEATHER REPORT</title>
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter city name" spellcheck="false" id="city">
+            <button onclick="search()"><img src="img/search.png" alt=""></button>
+        </div>
+        <div class="weather">
+            <img src="img/w.png" id="image" >
+            <p id="temp">0°c</p>
+            <p id="description"></p>
+            <div class="details">
+                <div class="col">
+                    <img src="img/humidity.png">
+                    <div>
+                        <p id="humidity">0%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="img/wind.png">
+                    <div>
+                        <p id="wind"> 0km/h</p>
+                        <p>wind speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        function search()
+        {
+            var city = document.getElementById('city').value;
+            
+            var apikey = "848fe379195691b6a6d1c007846d394f";
+            var api = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apikey+"&units=metric";
+
+            $.ajax({
+                url:api,
+                method:"get",
+                data:{},
+                success:function(response)
+                {
+                    document.getElementById('temp').innerHTML = response.main.temp+"<sup>o</sup>c";
+                    document.getElementById('description').innerHTML = response.weather[0].main;
+                    document.getElementById("humidity").innerHTML=response.main.humidity+"%";
+                    document.getElementById("wind").innerHTML=response.wind.speed+"km/hr";
+
+                    if(response.weather[0].main=="Haze"){
+                        document.getElementById("image").src="img/drizzle.png";
+                    }
+                    if(response.weather[0].main=="Mist"){
+                        document.getElementById("image").src="img/mist.png";
+                    }
+                    if(response.weather[0].main=="Clear"){
+                        document.getElementById("image").src="img/clear.png";
+                    }
+                    if(response.weather[0].main=="Rain"){
+                        document.getElementById("image").src="img/rain.png";
+                    }
+                    if(response.weather[0].main=="Snow"){
+                        document.getElementById("image").src="img/snow.png";
+                    }
+                    if(response.weather[0].main=="Clouds"){
+                        document.getElementById("image").src="img/clouds.png";
+                    }
+                    if(response.weather[0].main=="Smoke"){
+                        document.getElementById("image").src="img/snow.png";
+                    }
+                    if(response.weather[0].main=="Fog"){
+                        document.getElementById("image").src="img/fog.png";
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+</html>
